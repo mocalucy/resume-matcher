@@ -1,3 +1,3 @@
 # resume-matcher
-resume parser
+resume parser \n
 similarity score
