@@ -1,0 +1,8 @@
+spacy>=3.7.2
+qdrant-client>=1.6.3
+pandas>=1.5.3
+tqdm>=4.65.0
+scikit-learn>=1.2.2
+sentence-transformers>=2.2.2
+openai>=1.0.0
+python-dotenv>=1.0.0
