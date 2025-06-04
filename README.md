@@ -1,4 +1,7 @@
-# resume-matcher
-resume parser 
+# resume-job
 
-similarity score
+resume parser
+
+job description parser
+
+get similarity score
