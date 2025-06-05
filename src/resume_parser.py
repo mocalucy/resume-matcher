@@ -23,7 +23,8 @@ class data_extraxt:
         self.doc = nlp(self.clean_text)
 
     def extract_names(self):  #need some filter
-        return [e.text for e in self.doc.ents if e.label_ == 'PERSON'][0]
+        names = [e.text for e in self.doc.ents if e.label_ == 'PERSON']
+        return names[0] if names else "Name not found"
 
     def extract_education(self):
         return [e.text for e in self.doc.ents if e.label_ == 'DEGREE']
@@ -66,17 +67,16 @@ class data_extraxt:
         return [t.text for t in self.doc if t.pos_ in ['NOUN', 'PROPN']]
 
 def to_JSON(text):
-    clean_data = clean_text(text)
-    nlp_doc = nlp(clean_data)
+    extractor = data_extraxt(text)
     resume_dict = {
         'resume': text,
-        'clean_text': clean_data,
-        'name': extract_names(nlp_doc),
-        'email': extract_emails(text),
-        'phone': extract_phones(text),
-        'link': extract_links(text),
-        'keywords': extract_keywords(nlp_doc),
-        'education': extract_education(nlp(text)),
-        'experience': extract_experience(nlp_doc)
+        'clean_text': extractor.clean_text,
+        'name': extractor.extract_names(),
+        'email': extractor.extract_emails(),
+        'phone': extractor.extract_phones(),
+        'link': extractor.extract_links(),
+        'keywords': extractor.extract_keywords(),
+        'education': extractor.extract_education(),
+        'experience': extractor.extract_experience()
     }
     return resume_dict

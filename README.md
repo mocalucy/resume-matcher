@@ -1,43 +1,123 @@
-# 🤖 Resume Matcher with LLM-Powered Semantic Search
+# Resume Matcher
 
-This project implements a resume matching engine using **LLMs and vector similarity search**, enabling recruiters or job platforms to semantically match resumes with job descriptions. It uses `spaCy` for text parsing, `qdrant` for vector storage, and supports natural language queries.
+A Python tool that compares resumes against job descriptions using semantic similarity. The tool parses PDF resumes, extracts key information, and calculates how well each resume matches a given job description.
 
----
+## Features
 
-## 🔍 Features
+- Parse PDF resumes and extract key information
+- Compare multiple resumes against a job description
+- Calculate semantic similarity scores
+- Support for multiple input formats (single file, multiple files, or directory)
+- Save parsed resume data to JSON files
 
-- ✅ Extracts key sections from resumes using NLP
-- ✅ Embeds both job descriptions and resumes
-- ✅ Stores vectors in **Qdrant** for fast similarity search
-- ✅ Supports semantic queries like:
-  > "Find resumes with fraud detection and time-series modeling"
+## Prerequisites
 
----
+- Python 3.8+
+- Qdrant vector database
+- Required Python packages (see Installation)
 
-## 🧠 Tech Stack
+## Installation
 
-- Python 3.10+
-- `spaCy` (NLP pipeline)
-- `qdrant-client` (vector DB)
-- `scikit-learn`, `pandas`, `tqdm`
-- Optional: `streamlit` or `Flask` (for UI/API)
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/resume-matcher.git
+cd resume-matcher
+```
 
----
+2. Create and activate a conda environment:
+```bash
+conda create -n vol python=3.12
+conda activate vol
+```
 
-## 📂 File Overview
-
-| File | Description |
-|------|-------------|
-| `resume_parser.py` | Extracts structured info from resumes |
-| `qdrant_store.py` | Stores and retrieves embeddings from Qdrant |
-| `utils.py` | Preprocessing and helper functions |
-| `main.ipynb` | Development notebook for testing embedding + matching |
-
----
-
-## 🚀 How to Run
-
-1. Install dependencies:
-
+3. Install required packages:
 ```bash
 pip install -r requirements.txt
+```
+
+4. Start Qdrant server (using Docker):
+```bash
+docker run -p 6333:6333 -p 6334:6334 qdrant/qdrant
+```
+
+5. Download required NLTK data (required for text processing):
+```bash
+# NLTK requires additional data files for text processing
+python -c "import nltk; nltk.download('punkt'); nltk.download('averaged_perceptron_tagger'); nltk.download('maxent_ne_chunker'); nltk.download('words')"
+```
+
+## Usage
+
+The script can be used in three ways:
+
+1. **Single Resume**:
+```bash
+python main.py -i "path/to/resume.pdf" -j "path/to/job_description.pdf"
+```
+
+2. **Multiple Resumes** (comma-separated):
+```bash
+python main.py -i "resume1.pdf,resume2.pdf" -j "job_description.pdf"
+```
+
+3. **Directory of Resumes**:
+```bash
+python main.py -i "path/to/resumes/directory" -j "job_description.pdf"
+```
+
+### Arguments
+
+- `-i, --input`: Path to input resume(s). Can be:
+  - A single PDF file
+  - Multiple PDF files separated by commas
+  - A directory containing PDF files
+- `-j, --jobdesc`: Path to job description PDF file
+- `-o, --output`: (Optional) Path to save parsed resume JSON (default: "extracted_resume.json")
+- `--save-json`: (Optional) Save parsed resume data to JSON files. If not specified, only scores will be displayed.
+
+### Output
+
+For each resume, the script:
+1. (Optional) Creates a JSON file with parsed information (named `{resume_name}_analysis.json`) if `--save-json` is specified
+2. Calculates and displays a similarity score against the job description
+
+Example output:
+```
+📄 Reading job description: job_description.pdf
+🧠 Parsing job description...
+
+📊 Processing Resumes:
+📄 Reading resume: resume1.pdf
+🧠 Parsing resume...
+✅ Resume saved to: resume1_analysis.json  # Only shown if --save-json is used
+
+🔎 Match Scores:
+resume1.pdf: Score: 0.7973
+```
+
+## Project Structure
+
+```
+resume-matcher/
+├── main.py              # Main script
+├── src/
+│   ├── resume_parser.py # Resume parsing logic
+│   ├── score.py         # Similarity scoring
+│   └── utils.py         # Utility functions
+└── data/               # Sample resumes and job descriptions
+```
+
+## How It Works
+
+1. **Resume Parsing**: Extracts text and key information from PDF resumes
+2. **Job Description Processing**: Parses the job description PDF
+3. **Vector Similarity**: Uses Qdrant and sentence transformers to calculate semantic similarity
+4. **Scoring**: Compares each resume against the job description and outputs similarity scores
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

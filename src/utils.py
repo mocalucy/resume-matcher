@@ -14,3 +14,8 @@ def read_pdf(file_path):
         print(f"Error reading file '{file_path}': {str(e)}")
     return output
 
+def read_json(path): #read in json file
+    with open(path) as f:
+        data = json.load(f)
+    return data
+
