@@ -1,6 +1,16 @@
-# Resume Matcher
+# 🔍 Resume Matcher: AI-Powered Resume-to-Job Matching
 
-A Python tool that compares resumes against job descriptions using semantic similarity. The tool parses PDF resumes, extracts key information, and calculates how well each resume matches a given job description.
+Resume Matcher is an intelligent tool that leverages NLP and vector search to semantically match resumes to job descriptions. Instead of relying on simple keyword overlap, it captures the meaning behind the content, making it easier to identify the most relevant candidates.
+
+🚀 Core Features:
+
+📄 Resume & JD Parsing – Extracts structured data and keywords using NLP pipelines.
+
+🧠 Semantic Embeddings – Transforms text into vector representations with sentence-transformers.
+
+⚡ Fast Similarity Search – Uses Qdrant (a vector database) to score and rank resumes against a given job description.
+
+📈 Insightful Scoring – Displays relevance scores to help recruiters quickly find top matches.
 
 ## Features
 
